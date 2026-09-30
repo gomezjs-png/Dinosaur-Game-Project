@@ -4,6 +4,14 @@ gameAesthetics.css
 Will hold most of the aesthetics that will be used for the site that holds the dinosaur game.
 */
 
+/* bring canvas and text closer to middle of screen */
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* center and style main text */
 body {
     font-family: 'Andale Mono', monospace;
