@@ -3,3 +3,17 @@ Dinosaur Project
 gameAesthetics.css
 Will hold most of the aesthetics that will be used for the site that holds the dinosaur game.
 */
+
+/* center and style main text */
+body {
+    font-family: 'Andale Mono', monospace;
+    text-align: center;
+}
+
+/* canvas the game will be visible in */
+#board {
+    background-color: lightgray;
+    border: 1px solid black;
+    /* ground */
+    border-bottom: 10px solid darkgray;
+}
