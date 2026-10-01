@@ -21,19 +21,7 @@ body {
 /* canvas the game will be visible in */
 #board {
     background-color: lightgray;
-  /*  border-top-width: 1px;
-    border-top-style: solid;
-    border-top-color: black;
-    border-right-width: 1px;
-    border-right-style: solid;
-    border-right-color: black;
-    border-left-width: 1px;
-    border-left-style: solid;
-    border-left-color: black;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: black;
-
+    border-color: black;
 /* ground */
-    /*border-bottom: 10px solid gray;
+    border-bottom: 10px solid gray;
 }
