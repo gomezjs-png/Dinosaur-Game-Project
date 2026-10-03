@@ -11,10 +11,10 @@ let boardWidth = 750;
 let boardHeight = 250;
 let context;
 
-let dinoWidth = 88;
-let dinoHeight = 84;
-let dinoX = 50;
-let dinoY= boardHeight - dinoHeight;
+let dinoWidth = 174; // was 88
+let dinoHeight = 170; // was 84
+let dinoX = 30; // was 50
+let dinoY= 120; // was boardHeight - dinoHeight;
 let dinoImg;
 
 
@@ -56,6 +56,8 @@ window.onload = function () {
     board.width = boardWidth;
 
     context = board.getContext("2d")
+    // makes PNG not blurry
+    context.imageSmoothingEnabled = false;
 
     dinoImg = new Image();
     dinoImg.src = "PNGs/steg03.png";
