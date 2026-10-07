@@ -11,11 +11,13 @@ let boardWidth = 750;
 let boardHeight = 250;
 let context;
 
-let dinoWidth = 174; // was 88
+let dinoWidth = 150; // was 88 and 174
 let dinoHeight = 170; // was 84
 let dinoX = 30; // was 50
 let dinoY= 120; // was boardHeight - dinoHeight;
 let dinoImg;
+
+let ducking = false;
 
 
 let dino = {
@@ -29,11 +31,11 @@ let dino = {
 
 let cactusArray = [];
 
-let cactus1Width = 34;
-let cactus2Width = 69;
-let cactus3Width = 102;
+let cactus1Width = 24; // was 34
+let cactus2Width = 50; //was 69
+let cactus3Width = 80; //was 102
 
-let cactusHeight = 70;
+let cactusHeight = 60;
 let cactusX = 700;
 let cactusY = boardHeight - cactusHeight;
 
@@ -65,17 +67,19 @@ window.onload = function () {
         context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)};
 
     cactus1Img = new Image();
-    cactus1Img.src = "src/cactus1.png";
+    cactus1Img.src = "PNGs/smallCactus.png";
 
     cactus2Img = new Image();
-    cactus2Img.src = "src/cactus2.png";
+    cactus2Img.src = "PNGs/mediumCactus.png";
 
     cactus3Img = new Image();
-    cactus3Img.src = "src/cactus3.png";
+    cactus3Img.src = "PNGs/largeCactus.png";
 
     requestAnimationFrame(update);
     setInterval(placeCactus, 1500)//1 second
     document.addEventListener("keydown", moveDino);
+    document.addEventListener("keydown", duckDino, ducking = true);
+    document.addEventListener("keyup", drawDino, ducking = false);
 }
 
 
@@ -111,6 +115,17 @@ function update(){
 }
 
 
+function drawDino(e){
+    if(e.code == 'ArrowDown') {
+        dinoImg = new Image();
+        dinoImg.src = "PNGs/steg03.png";
+        dinoImg.onload = function () {
+            context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)
+        };
+    }
+}
+
+
 
 function moveDino(e){
     if(gameOver){
@@ -119,7 +134,23 @@ function moveDino(e){
 
     if((e.code =="Space" || e.code == "ArrowUp") && dino.y == dinoY){
 
-        velocityY = -10;
+        velocityY = -12;
+
+    }
+
+}
+
+function duckDino(e){
+
+    if(gameOver){
+        return;
+    }
+
+    if(e.code =="ArrowDown" && dino.y == dinoY){
+        dinoImg = new Image();
+        dinoImg.src = "PNGs/steg03_duck.png";
+        dinoImg.onload = function(){
+            context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)};
 
     }
 
