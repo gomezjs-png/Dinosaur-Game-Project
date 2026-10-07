@@ -43,6 +43,16 @@ let cactus1Img;
 let cactus3Img;
 let cactus2Img;
 
+// Pterodactyl
+let pteroArray = [];
+let pteroWidth =  69;
+let pteroHeight = 84;
+let pteroX = boardWidth;
+let pteroHeights = [20,90,130];
+let pteroSpeed = -10; //How fast pterodactyl will move left
+let pteroFrame = 0;
+let pteroStartScore = 450;
+
 //game physics
 let velocityX = -8; //cactus moving left
 let velocityY = 0;
@@ -75,11 +85,21 @@ window.onload = function () {
     cactus3Img = new Image();
     cactus3Img.src = "PNGs/largeCactus.png";
 
+
     requestAnimationFrame(update);
     setInterval(placeCactus, 1500)//1 second
     document.addEventListener("keydown", moveDino);
     document.addEventListener("keydown", duckDino, ducking = true);
     document.addEventListener("keyup", drawDino, ducking = false);
+
+
+    //Spawning in the pterodactyls a couple seconds after the cacti
+    pteroClosed = new Image();
+    pteroClosed.src = "PNGs/pteroClosed.png";
+
+    pteroOpen = new Image();
+    pteroOpen.src = "PNGs/pteroOpen.png";
+    setInterval(placePtero, 4000);
 }
 
 
@@ -93,6 +113,12 @@ function update(){
     requestAnimationFrame(update);
 
     context.clearRect(0,0,board.width, board.height);
+
+    //adding a score count that continuosly updates
+    score++;
+    context.font = "20px Courier";
+    context.fillStyle = "black";
+    context.fillText(score, boardWidth - 80, 30);
 
     //dino
     velocityY += gravity;
@@ -111,7 +137,21 @@ function update(){
         }
     }
 
+    //Pterodactyl
+    pteroFrame++;
+    let wingAnim = (Math.floor(pteroFrame / 10) % 2 ==0)? pteroClosed : pteroOpen;
 
+    for (let i=0; i< pteroArray.length; i++){
+        let ptero = pteroArray[i];
+        ptero.x += pteroSpeed;
+        context.drawImage(wingAnim, ptero.x, ptero.y, ptero.width, ptero.height);
+
+        if (detectCollision(dino,ptero)){
+            gameOver = true;
+        }
+    }
+
+    pteroArray = pteroArray.filter(p => p.x + p.width >0);
 }
 
 
@@ -194,6 +234,25 @@ function placeCactus(){
     if(cactusArray.length > 5){
         cactusArray.shift(); //removes first cactus from array
     }
+
+}
+
+//wanting to spawn in the pterodactyls from the rh side
+
+function placePtero(){
+    //if the game has ended, or the running score has not reached a certain level.
+    if (score < pteroStartScore || gameOver){
+        return;
+    }
+
+    let pterodactyl = {
+        img: pteroClosed,
+        x:pteroX,
+        y: pteroHeights[Math.floor(Math.random()*pteroHeights.length)],
+        width: pteroWidth,
+        height: pteroHeight
+    };
+    pteroArray.push(pterodactyl);
 
 }
 
