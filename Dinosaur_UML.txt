@@ -1,0 +1,23 @@
+@startuml
+
+left to right direction
+actor "User" as user
+
+rectangle "Dinosaur Game" {
+  usecase "Guest" as guest
+  usecase "Login" as login
+  usecase "Achievements" as achievements
+  usecase "Change Character" as chara
+  usecase "Analytics" as analytics
+  usecase "Settings" as settings
+}
+
+user -- guest
+guest ..> login : Make Account
+login ..> achievements
+achievements ..> chara : Unlock Characters
+login ..> analytics : Highscores
+guest ..> settings
+login ..> settings
+
+@enduml
