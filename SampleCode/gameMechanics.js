@@ -18,6 +18,7 @@ let dinoY= 120; // was boardHeight - dinoHeight;
 let dinoImg;
 let dinoRun1;
 let dinoRun2;
+let stagnantDino;
 
 let ducking = false;
 
@@ -78,9 +79,10 @@ window.onload = function () {
     context.imageSmoothingEnabled = false;
 
     // stagnant dino
-    let stagnantImage = true;
     dinoImg = new Image();
     dinoImg.src = "PNGs/steg03.png";
+    stagnantDino = new Image();
+    stagnantDino.src = "PNGs/steg03.png";
 
     dinoDuckImg = new Image();
     dinoDuckImg.src = "PNGs/steg03_duck.png";
@@ -194,7 +196,7 @@ function drawDino(e) {
     if (e.code == 'ArrowDown' && ducking) {
         isRunning = true;
         ducking = false;
-        dinoImg = stagnantImg;
+        dinoImg = stagnantDino;
         dino.y = dinoY;
     }
 }
@@ -209,7 +211,7 @@ function moveDino(e){
         velocityY = -12;
         // back to stagnant img when jumping
         isRunning = false;
-        dinoImg = stagnantImg;
+        dinoImg = stagnantDino;
     }
 }
 
