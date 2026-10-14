@@ -16,9 +16,15 @@ let dinoHeight = 170; // was 84
 let dinoX = 30; // was 50
 let dinoY= 120; // was boardHeight - dinoHeight;
 let dinoImg;
+let dinoRun1;
+let dinoRun2;
 
 let ducking = false;
 
+// running animation
+let runFrame = 0;
+let runSpeed = 9;
+let isRunning = true;
 
 let dino = {
     x: dinoX,
@@ -71,10 +77,15 @@ window.onload = function () {
     // makes PNG not blurry
     context.imageSmoothingEnabled = false;
 
+    // stagnant dino
+    let stagnantImage = true;
     dinoImg = new Image();
     dinoImg.src = "PNGs/steg03.png";
-    dinoImg.onload = function(){
-        context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)};
+    // running PNGs
+    dinoRun1 = new Image();
+    dinoRun2 = new Image();
+    dinoRun1.src = "PNGs/steg03_move01.png";
+    dinoRun2.src = "PNGs/steg03_move02.png";
 
     cactus1Img = new Image();
     cactus1Img.src = "PNGs/smallCactus.png";
@@ -103,8 +114,6 @@ window.onload = function () {
 }
 
 
-
-
 function update(){
     if(gameOver){
         return;
@@ -123,7 +132,26 @@ function update(){
     //dino
     velocityY += gravity;
     dino.y = Math.min(dino.y + velocityY, dinoY); //apply gravity
+
+    // running animation
+    if (dino.y === dinoY && isRunning) {
+        // keep track of frame for switching PNG
+        runFrame++;
+
+        // alternate between the two running PNGs
+        if (Math.floor(runFrame / runSpeed) % 2 === 0) {
+            dinoImg = dinoRun1;
+        } else {
+            dinoImg = dinoRun2;
+        }
+    }
+
+    // draw dinosaur
     context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+    // reset running animation after jumping/ducking
+    if (dino.y === dinoY) {
+        isRunning = true;
+    }
 
     //cactus
     for(let i = 0; i < cactusArray.length; i++){
@@ -160,12 +188,10 @@ function drawDino(e){
         dinoImg = new Image();
         dinoImg.src = "PNGs/steg03.png";
         dinoImg.onload = function () {
-            context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)
+            context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
         };
     }
 }
-
-
 
 function moveDino(e){
     if(gameOver){
@@ -175,9 +201,11 @@ function moveDino(e){
     if((e.code =="Space" || e.code == "ArrowUp") && dino.y == dinoY){
 
         velocityY = -12;
-
+        // back to stagnant img when jumping
+        isRunning = false;
+        dinoImg = new Image();
+        dinoImg.src = "PNGs/steg03.png";
     }
-
 }
 
 function duckDino(e){
@@ -187,16 +215,15 @@ function duckDino(e){
     }
 
     if(e.code =="ArrowDown" && dino.y == dinoY){
+
+        isRunning = false;
         dinoImg = new Image();
         dinoImg.src = "PNGs/steg03_duck.png";
-        dinoImg.onload = function(){
-            context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)};
 
+        //dinoImg.onload = function(){
+            //context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)};
     }
-
 }
-
-
 
 function placeCactus(){
 
