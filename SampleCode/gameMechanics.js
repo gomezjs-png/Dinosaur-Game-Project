@@ -11,7 +11,7 @@ let boardWidth = 750;
 let boardHeight = 250;
 let context;
 
-let dinoWidth = 150; // was 88 and 174
+let dinoWidth = 174; // was 88
 let dinoHeight = 170; // was 84
 let dinoX = 30; // was 50
 let dinoY= 120; // was boardHeight - dinoHeight;
@@ -37,9 +37,9 @@ let dino = {
 
 let cactusArray = [];
 
-let cactus1Width = 24; // was 34
-let cactus2Width = 50; //was 69
-let cactus3Width = 80; //was 102
+let cactus1Width = 34;
+let cactus2Width = 69;
+let cactus3Width = 90; //was 102
 
 let cactusHeight = 60;
 let cactusX = 700;
@@ -81,6 +81,10 @@ window.onload = function () {
     let stagnantImage = true;
     dinoImg = new Image();
     dinoImg.src = "PNGs/steg03.png";
+
+    dinoDuckImg = new Image();
+    dinoDuckImg.src = "PNGs/steg03_duck.png";
+
     // running PNGs
     dinoRun1 = new Image();
     dinoRun2 = new Image();
@@ -100,8 +104,8 @@ window.onload = function () {
     requestAnimationFrame(update);
     setInterval(placeCactus, 1500)//1 second
     document.addEventListener("keydown", moveDino);
-    document.addEventListener("keydown", duckDino, ducking = true);
-    document.addEventListener("keyup", drawDino, ducking = false);
+    document.addEventListener("keydown", duckDino);
+    document.addEventListener("keyup", drawDino);
 
 
     //Spawning in the pterodactyls a couple seconds after the cacti
@@ -129,9 +133,13 @@ function update(){
     context.fillStyle = "black";
     context.fillText(score, boardWidth - 80, 30);
 
-    //dino
-    velocityY += gravity;
-    dino.y = Math.min(dino.y + velocityY, dinoY); //apply gravity
+    //dino gravity ONLY when not ducking
+   if(!ducking) {
+        velocityY += gravity;
+        dino.y = Math.min(dino.y + velocityY, dinoY);
+    } else {
+        dino.y = 130;
+    }
 
     // running animation
     if (dino.y === dinoY && isRunning) {
@@ -142,7 +150,7 @@ function update(){
         if (Math.floor(runFrame / runSpeed) % 2 === 0) {
             dinoImg = dinoRun1;
         } else {
-            dinoImg = dinoRun2;
+           dinoImg = dinoRun2;
         }
     }
 
@@ -161,7 +169,6 @@ function update(){
 
         if (detectCollision(dino, cactus)){
             gameOver = true;
-            //draw dino dead image
         }
     }
 
@@ -182,14 +189,13 @@ function update(){
     pteroArray = pteroArray.filter(p => p.x + p.width >0);
 }
 
-
-function drawDino(e){
-    if(e.code == 'ArrowDown') {
-        dinoImg = new Image();
-        dinoImg.src = "PNGs/steg03.png";
-        dinoImg.onload = function () {
-            context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
-        };
+//function draws reluar dino when arrowdown is released
+function drawDino(e) {
+    if (e.code == 'ArrowDown' && ducking) {
+        isRunning = true;
+        ducking = false;
+        dinoImg = stagnantImg;
+        dino.y = dinoY;
     }
 }
 
@@ -203,8 +209,7 @@ function moveDino(e){
         velocityY = -12;
         // back to stagnant img when jumping
         isRunning = false;
-        dinoImg = new Image();
-        dinoImg.src = "PNGs/steg03.png";
+        dinoImg = stagnantImg;
     }
 }
 
@@ -213,16 +218,14 @@ function duckDino(e){
     if(gameOver){
         return;
     }
+        //only ducks when arrow is pressed down, and ducking isn't already true
+        if (e.code == "ArrowDown" && dino.y == dinoY && !ducking) {
+            ducking = true;
+            isRunning = false;
+            dinoImg = dinoDuckImg;
+            dino.y = 100;
+        }
 
-    if(e.code =="ArrowDown" && dino.y == dinoY){
-
-        isRunning = false;
-        dinoImg = new Image();
-        dinoImg.src = "PNGs/steg03_duck.png";
-
-        //dinoImg.onload = function(){
-            //context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height)};
-    }
 }
 
 function placeCactus(){
@@ -284,8 +287,14 @@ function placePtero(){
 }
 
 function detectCollision(a,b){
-    return a.x< b.x + b.width &&
-        a.x + a.width > b.x &&
-        a.y < b.y + b.height &&
-        a.y + a.height > b.y;
+    //add offsets to shrink the hitbox so only collides where
+    //the dino body is visible
+
+    let offsetX = 15;
+    let offsetY = 60;
+
+    return a.x + offsetX < b.x + b.width &&
+        a.x + a.width - offsetX > b.x &&
+        a.y + offsetY < b.y + b.height &&
+        a.y + a.height - offsetY > b.y;
 }
