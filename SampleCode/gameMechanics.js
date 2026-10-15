@@ -49,13 +49,14 @@ let cactusY = boardHeight - cactusHeight;
 let cactus1Img;
 let cactus3Img;
 let cactus2Img;
+let cactusStartScore = 100;
 
 // Pterodactyl
 let pteroArray = [];
 let pteroWidth =  69;
 let pteroHeight = 84;
 let pteroX = boardWidth;
-let pteroHeights = [20,90,130];
+let pteroHeights = [60,90,130];
 let pteroSpeed = -10; //How fast pterodactyl will move left
 let pteroFrame = 0;
 let pteroStartScore = 450;
@@ -232,7 +233,7 @@ function duckDino(e){
 
 function placeCactus(){
 
-    if(gameOver){
+    if(score < cactusStartScore || gameOver){
         return;
     }
 
@@ -272,7 +273,7 @@ function placeCactus(){
 //wanting to spawn in the pterodactyls from the rh side
 
 function placePtero(){
-    //if the game has ended, or the running score has not reached a certain level.
+    //if the game has ended, or the running score has not reached a certain level OR a cactus hasnt gone yet
     if (score < pteroStartScore || gameOver){
         return;
     }
