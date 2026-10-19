@@ -5,28 +5,18 @@ This javascript document will hold most of the game mechanics for our game ie. k
 obstacle mechanics, etc.
 */
 
-//set board dimensions
+// set board dimensions
 let board;
 let boardWidth = 750;
 let boardHeight = 250;
 let context;
 
+// set dino dimensions and PNG
 let dinoWidth = 174; // was 88
 let dinoHeight = 170; // was 84
 let dinoX = 30; // was 50
 let dinoY= 120; // was boardHeight - dinoHeight;
 let dinoImg;
-let dinoRun1;
-let dinoRun2;
-let stagnantDino;
-
-let ducking = false;
-
-// running animation
-let runFrame = 0;
-let runSpeed = 9;
-let isRunning = true;
-
 let dino = {
     x: dinoX,
     y: dinoY,
@@ -34,8 +24,19 @@ let dino = {
     height: dinoHeight
 }
 
-//cactus
+// ducking animation
+let ducking = false;
 
+// running animation
+let runFrame = 0;
+let runSpeed = 9;
+let isRunning = true;
+let dinoRun1;
+let dinoRun2;
+let stagnantDino;
+
+
+// cactus dimensions and PNGs
 let cactusArray = [];
 
 let cactus1Width = 34;
@@ -61,7 +62,7 @@ let pteroSpeed = -10; //How fast pterodactyl will move left
 let pteroFrame = 0;
 let pteroStartScore = 450;
 
-//game physics
+// game physics
 let velocityX = -8; //cactus moving left
 let velocityY = 0;
 let gravity = 0.4;
@@ -69,7 +70,7 @@ let gravity = 0.4;
 let gameOver = false;
 let score = 0;
 
-//change board dimensions
+// load everything once opened
 window.onload = function () {
     board = document.getElementById("board");
     board.height = boardHeight;
@@ -79,12 +80,13 @@ window.onload = function () {
     // makes PNG not blurry
     context.imageSmoothingEnabled = false;
 
-    // stagnant dino
+    // stagnant dino PNG
     dinoImg = new Image();
     dinoImg.src = "PNGs/steg03.png";
     stagnantDino = new Image();
     stagnantDino.src = "PNGs/steg03.png";
 
+    // ducking dino PNG
     dinoDuckImg = new Image();
     dinoDuckImg.src = "PNGs/steg03_duck.png";
 
@@ -94,6 +96,7 @@ window.onload = function () {
     dinoRun1.src = "PNGs/steg03_move01.png";
     dinoRun2.src = "PNGs/steg03_move02.png";
 
+    // cacti PNGs
     cactus1Img = new Image();
     cactus1Img.src = "PNGs/smallCactus.png";
 
@@ -103,7 +106,7 @@ window.onload = function () {
     cactus3Img = new Image();
     cactus3Img.src = "PNGs/largeCactus.png";
 
-
+    // update animation based on action taken
     requestAnimationFrame(update);
     setInterval(placeCactus, 1500)//1 second
     document.addEventListener("keydown", moveDino);
@@ -120,7 +123,7 @@ window.onload = function () {
     setInterval(placePtero, 4000);
 }
 
-
+// updates score and all PNGs
 function update(){
     if(gameOver){
         return;
@@ -164,7 +167,7 @@ function update(){
         isRunning = true;
     }
 
-    //cactus
+    // draw cacti
     for(let i = 0; i < cactusArray.length; i++){
         let cactus = cactusArray[i];
         cactus.x += velocityX;
@@ -192,7 +195,7 @@ function update(){
     pteroArray = pteroArray.filter(p => p.x + p.width >0);
 }
 
-//function draws reluar dino when arrowdown is released
+//function draws regular dino when arrowdown is released
 function drawDino(e) {
     if (e.code == 'ArrowDown' && ducking) {
         isRunning = true;
@@ -202,6 +205,7 @@ function drawDino(e) {
     }
 }
 
+// draws the dinosaur jumping when space or arrowup is pressed
 function moveDino(e){
     if(gameOver){
         return;
@@ -216,6 +220,7 @@ function moveDino(e){
     }
 }
 
+// draws the dinosaur ducking when arrowdown is pressed
 function duckDino(e){
 
     if(gameOver){
@@ -231,6 +236,7 @@ function duckDino(e){
 
 }
 
+// draws the cacti at random intervals
 function placeCactus(){
 
     if(score < cactusStartScore || gameOver){
@@ -270,8 +276,7 @@ function placeCactus(){
 
 }
 
-//wanting to spawn in the pterodactyls from the rh side
-
+// draws the pterodactyls at random intervals
 function placePtero(){
     //if the game has ended, or the running score has not reached a certain level OR a cactus hasnt gone yet
     if (score < pteroStartScore || gameOver){
@@ -289,6 +294,7 @@ function placePtero(){
 
 }
 
+// collision detection when hitting cacti or pterodactyls
 function detectCollision(a,b){
     //add offsets to shrink the hitbox so only collides where
     //the dino body is visible

@@ -22,7 +22,7 @@ body {
 #board {
     background-color: lightgray;
     border-color: black;
-/* ground */
+    /* ground */
     border-bottom: 10px solid gray;
 }
 
