@@ -20,3 +20,18 @@ openBtn.addEventListener('click', ()=>{
 closeBtn.addEventListener('click', () => {
     blackWrapper.classList.remove('open');
 });
+
+/* ------------- */
+/* settings page */
+/* ------------- */
+
+const settingsButton = document.getElementById("settings");
+const settingsPopup = document.getElementById("settings-popup");
+const closeSettings = document.getElementById("close");
+
+/* testing */
+console.log(settingsButton);
+
+settingsButton.addEventListener("click", () => {settingsPopup.classList.add("open-settings-popup");});
+
+closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("open-settings-popup");})
