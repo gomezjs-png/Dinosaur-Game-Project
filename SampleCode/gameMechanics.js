@@ -86,6 +86,10 @@ window.onload = function () {
     stagnantDino = new Image();
     stagnantDino.src = "PNGs/steg03.png";
 
+    //dino dead PNG
+    dinoDead = new Image();
+    dinoDead.src = "PNGs/steg03_dead.png";
+
     // ducking dino PNG
     dinoDuckImg = new Image();
     dinoDuckImg.src = "PNGs/steg03_duck.png";
@@ -113,6 +117,22 @@ window.onload = function () {
     document.addEventListener("keydown", duckDino);
     document.addEventListener("keyup", drawDino);
 
+    document.getElementById("restart").addEventListener("click", function(){
+        //set all game variables and arrays to 0
+        gameOver = false;
+        score = 0;
+        dino.y = dinoY;
+        velocityY = 0;
+        cactusArray = [];
+        pteroArray = [];
+        ducking = false;
+        dinoImg = stagnantDino;
+
+        //hide button
+        this.style.display = "none";
+        requestAnimationFrame(update);
+    })
+
 
     //Spawning in the pterodactyls a couple seconds after the cacti
     pteroClosed = new Image();
@@ -125,12 +145,51 @@ window.onload = function () {
 
 // updates score and all PNGs
 function update(){
+
+    //if game over is true draw the dead dino, score, and obstacles on the final frame
     if(gameOver){
+
+        //clear board and draw dinoDead
+
+        context.clearRect(0, 0, board.width, board.height);
+        context.drawImage(dinoDead, dino.x, dino.y, dino.width, dino.height);
+
+        //redraw score
+        context.font = "20px Courier";
+        context.fillStyle = "black";
+        context.fillText(score, boardWidth - 80, 30);
+
+        //freeze cactus
+        for (let i = 0; i < cactusArray.length; i++) {
+            let cactus = cactusArray[i];
+            context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+        }
+
+        let wingAnim = (Math.floor(pteroFrame / 10) % 2 == 0) ? pteroClosed : pteroOpen;
+        for (let i = 0; i < pteroArray.length; i++) {
+            let ptero = pteroArray[i];
+            context.drawImage(wingAnim, ptero.x, ptero.y, ptero.width, ptero.height);
+        }
+
+        //make the background darker
+        context.fillStyle = "rgba(0,0,0,0.3)";
+        context.fillRect(0, 0, board.width, board.height);
+
+        //display GameOVer text
+        context.font = "30px Courier";
+        context.fillStyle = "black";
+        context.textAlign = "center";
+        context.fillText("GAME OVER", boardWidth / 2, boardHeight /2);
+
+        document.getElementById("restart").style.display = "block";
+
         return;
     }
 
+
     requestAnimationFrame(update);
 
+    //clear old frames
     context.clearRect(0,0,board.width, board.height);
 
     //adding a score count that continuosly updates

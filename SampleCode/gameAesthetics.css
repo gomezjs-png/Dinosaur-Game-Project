@@ -62,7 +62,7 @@ header {
     justify-content: center;
 
 }
-.black-wrapper.open { display: flex; z-index: 10;}
+.black-wrapper.open { display: flex; z-index: 11;}
 
 
 /*popup window*/
