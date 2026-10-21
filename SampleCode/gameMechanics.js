@@ -50,7 +50,7 @@ let cactusY = boardHeight - cactusHeight;
 let cactus1Img;
 let cactus3Img;
 let cactus2Img;
-let cactusStartScore = 100;
+let cactusHasPassed = false;
 
 // Pterodactyl
 let pteroArray = [];
@@ -171,6 +171,11 @@ function update(){
     for(let i = 0; i < cactusArray.length; i++){
         let cactus = cactusArray[i];
         cactus.x += velocityX;
+        //Checking to see if the dinosaur has moved to the left of the dino.
+        // (Will be used to spawn in pterodactyls after cacti)
+        if (cactus.x + cactus.width < 50) {
+            cactusHasPassed = true;
+        }
         context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
 
         if (detectCollision(dino, cactus)){
@@ -178,7 +183,7 @@ function update(){
         }
     }
 
-    //Pterodactyl
+    //drawing pterodactyl
     pteroFrame++;
     let wingAnim = (Math.floor(pteroFrame / 10) % 2 ==0)? pteroClosed : pteroOpen;
 
@@ -239,7 +244,7 @@ function duckDino(e){
 // draws the cacti at random intervals
 function placeCactus(){
 
-    if(score < cactusStartScore || gameOver){
+    if( gameOver){
         return;
     }
 
@@ -279,7 +284,7 @@ function placeCactus(){
 // draws the pterodactyls at random intervals
 function placePtero(){
     //if the game has ended, or the running score has not reached a certain level OR a cactus hasnt gone yet
-    if (score < pteroStartScore || gameOver){
+    if (score < pteroStartScore || gameOver ||!cactusHasPassed ){
         return;
     }
 
