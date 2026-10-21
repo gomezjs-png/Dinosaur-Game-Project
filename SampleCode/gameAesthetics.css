@@ -62,7 +62,7 @@ header {
     justify-content: center;
 
 }
-.black-wrapper.open { display: flex; }
+.black-wrapper.open { display: flex; z-index: 10;}
 
 
 /*popup window*/
@@ -177,6 +177,7 @@ header {
     font-family: "Courier New", monospace;
     border-radius: 5px;
     visibility: hidden;
+    z-index: 10;
 }
 
 /* controls settings popup visbility */
@@ -208,4 +209,19 @@ header {
     align-items: center;
     gap: 15px;
     margin: 30px;
+}
+
+/* game over button*/
+
+#restart {
+    border: 2px solid black;
+    background-color: lightgray;
+    color: black;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-family: "Courier New", monospace;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 20px;
+    z-index: 1;
 }

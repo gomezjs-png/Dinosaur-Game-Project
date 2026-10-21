@@ -50,14 +50,13 @@ let cactusY = boardHeight - cactusHeight;
 let cactus1Img;
 let cactus3Img;
 let cactus2Img;
-let cactusStartScore = 100;
 
 // Pterodactyl
 let pteroArray = [];
 let pteroWidth =  69;
 let pteroHeight = 84;
 let pteroX = boardWidth;
-let pteroHeights = [60,90,130];
+let pteroHeights = [20,90,130];
 let pteroSpeed = -10; //How fast pterodactyl will move left
 let pteroFrame = 0;
 let pteroStartScore = 450;
@@ -90,6 +89,10 @@ window.onload = function () {
     dinoDuckImg = new Image();
     dinoDuckImg.src = "PNGs/steg03_duck.png";
 
+    //dino dead PNG
+    dinoDead = new Image();
+    dinoDead.src = "PNGs/steg03_dead.png";
+
     // running PNGs
     dinoRun1 = new Image();
     dinoRun2 = new Image();
@@ -114,6 +117,23 @@ window.onload = function () {
     document.addEventListener("keyup", drawDino);
 
 
+    document.getElementById("restart").addEventListener("click", function(){
+       //set all game variables and arrays to 0
+        gameOver = false;
+        score = 0;
+        dino.y = dinoY;
+        velocityY = 0;
+        cactusArray = [];
+        pteroArray = [];
+        ducking = false;
+        dinoImg = stagnantDino;
+
+        //hide button
+        this.style.display = "none";
+        requestAnimationFrame(update);
+    })
+
+
     //Spawning in the pterodactyls a couple seconds after the cacti
     pteroClosed = new Image();
     pteroClosed.src = "PNGs/pteroClosed.png";
@@ -125,13 +145,52 @@ window.onload = function () {
 
 // updates score and all PNGs
 function update(){
+
+    //if game over is true draw the dead dino, score, and obstacles on the final frame
     if(gameOver){
+
+        //clear board and draw dinoDead
+
+        context.clearRect(0, 0, board.width, board.height);
+        context.drawImage(dinoDead, dino.x, dino.y, dino.width, dino.height);
+
+        //redraw score
+        context.font = "20px Courier";
+        context.fillStyle = "black";
+        context.fillText(score, boardWidth - 80, 30);
+
+        //freeze cactus
+        for (let i = 0; i < cactusArray.length; i++) {
+            let cactus = cactusArray[i];
+            context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+        }
+
+        let wingAnim = (Math.floor(pteroFrame / 10) % 2 == 0) ? pteroClosed : pteroOpen;
+        for (let i = 0; i < pteroArray.length; i++) {
+            let ptero = pteroArray[i];
+            context.drawImage(wingAnim, ptero.x, ptero.y, ptero.width, ptero.height);
+        }
+
+        //make the background darker
+        context.fillStyle = "rgba(0,0,0,0.3)";
+        context.fillRect(0, 0, board.width, board.height);
+
+        //display GameOVer text
+        context.font = "30px Courier";
+        context.fillStyle = "black";
+        context.textAlign = "center";
+        context.fillText("GAME OVER", boardWidth / 2, boardHeight /2);
+
+        document.getElementById("restart").style.display = "block";
+
         return;
     }
 
+    //clear canvas so old frames are wiped
+    context.clearRect(0,0,board.width, board.height);
+
     requestAnimationFrame(update);
 
-    context.clearRect(0,0,board.width, board.height);
 
     //adding a score count that continuosly updates
     score++;
@@ -193,6 +252,8 @@ function update(){
     }
 
     pteroArray = pteroArray.filter(p => p.x + p.width >0);
+
+
 }
 
 //function draws regular dino when arrowdown is released
@@ -231,7 +292,8 @@ function duckDino(e){
             ducking = true;
             isRunning = false;
             dinoImg = dinoDuckImg;
-            dino.y = 100;
+            dinoImg.y = 100;
+
         }
 
 }
@@ -239,7 +301,7 @@ function duckDino(e){
 // draws the cacti at random intervals
 function placeCactus(){
 
-    if(score < cactusStartScore || gameOver){
+    if(gameOver){
         return;
     }
 
@@ -278,7 +340,7 @@ function placeCactus(){
 
 // draws the pterodactyls at random intervals
 function placePtero(){
-    //if the game has ended, or the running score has not reached a certain level OR a cactus hasnt gone yet
+    //if the game has ended, or the running score has not reached a certain level.
     if (score < pteroStartScore || gameOver){
         return;
     }
@@ -302,8 +364,18 @@ function detectCollision(a,b){
     let offsetX = 15;
     let offsetY = 60;
 
-    return a.x + offsetX < b.x + b.width &&
+    if(ducking){
+        return a.x + 120< b.x + b.width &&
+            a.x + a.width - 90 > b.x &&
+            a.y + 60 < b.y + b.height &&
+            a.y + a.height - 60 > b.y;
+    } else {
+        return a.x + offsetX < b.x + b.width &&
         a.x + a.width - offsetX > b.x &&
         a.y + offsetY < b.y + b.height &&
         a.y + a.height - offsetY > b.y;
+    }
+
 }
+
+
