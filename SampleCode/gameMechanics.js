@@ -57,7 +57,7 @@ let pteroArray = [];
 let pteroWidth =  69;
 let pteroHeight = 84;
 let pteroX = boardWidth;
-let pteroHeights = [60,90,130];
+let pteroHeights = [25,90,120];
 let pteroSpeed = -10; //How fast pterodactyl will move left
 let pteroFrame = 0;
 let pteroStartScore = 450;
@@ -69,6 +69,7 @@ let gravity = 0.4;
 
 let gameOver = false;
 let score = 0;
+let frameCount = 0;
 
 // load everything once opened
 window.onload = function () {
@@ -192,8 +193,11 @@ function update(){
     //clear old frames
     context.clearRect(0,0,board.width, board.height);
 
-    //adding a score count that continuosly updates
-    score++;
+    //adding a score count that continuosly updates every 5 frames
+    frameCount++;
+    if (frameCount % 5 ==0){
+        score++;
+    }
     context.font = "20px Courier";
     context.fillStyle = "black";
     context.fillText(score, boardWidth - 80, 30);

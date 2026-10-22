@@ -14,7 +14,7 @@ Will hold most of the aesthetics that will be used for the site that holds the d
 
 /* center and style main text */
 body {
-    font-family: 'Andale Mono', monospace;
+    font-family: "Courier New", monospace;
     text-align: center;
 }
 
@@ -26,9 +26,6 @@ body {
     border-bottom: 10px solid gray;
 }
 
-/*
-----------
-*/
 
 /*Moving the buttons inside header to be in the header RH section */
 header {
@@ -38,14 +35,18 @@ header {
     padding: 10px 20px;
 }
 
+/* ------------- */
+/* login page */
+/* ------------- */
 .btn{
-    border: 2px solid black;
+    border: 1px solid #3b3b3b;
     background-color: lightgray;
     color: black;
-    padding: 10px 30px;
-    border-radius: 5px;
+    padding: 7px 10px 7px 10px;
+    border-radius: 3px;
     font-family: "Courier New", monospace;
-    font-size: 17px;
+    font-weight: bold;
+    font-size: 15px;
     cursor: pointer;
 
 }
@@ -83,7 +84,11 @@ header {
     position: absolute;
     top:10px;
     right: 14px;
+    font-family: "Courier New", monospace;
     font-size: 1.2rem;
+    border-color: transparent;
+    background: transparent;
+    cursor: pointer;
 }
 /*Adding the header to the popup to be centered to the left*/
 .popup h2{
@@ -123,25 +128,31 @@ header {
     font-size: 1.3rem;
     color: #888;
     padding: 4px 2px;
-    margin: 0;
-    border-radius: 0;
     width: auto;
+}
+/*Adding a mini line for signup seperation*/
+p,
+.popup #signInPage{
+    flex: 1;
+    border: none;
+    font-size: 0.75rem;
+    padding-top: 5px;
 }
 
 /*creating some styling for the submit button*/
 .popup .btn2{
     display: block;
     width:auto;
-    margin: 30px 0 0 auto;
-    background: lightgray;
+    margin: 10px auto 0;
+    background: transparent;
     color: black;
     font-family: "Courier New", monospace;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.2rem;
     padding: 10px 20px;
     border-radius: 5px;
+    border-color: transparent;
     cursor: pointer;
-
 }
 
 /* ------------- */
@@ -191,6 +202,10 @@ header {
     top: 10px;
     right: 11px;
     cursor: pointer;
+    font-family: "Courier New", monospace;
+    border-color: transparent;
+    background: transparent;
+    font-size: 1.2rem;
 }
 
 /* stylizes settings options */
