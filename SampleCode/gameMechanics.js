@@ -39,13 +39,13 @@ let stagnantDino;
 // cactus dimensions and PNGs
 let cactusArray = [];
 
-let cactus1Width = 34;
+let cactus1Width = 60; //was 34
 let cactus2Width = 69;
 let cactus3Width = 90; //was 102
 
 let cactusHeight = 60;
 let cactusX = 700;
-let cactusY = boardHeight - cactusHeight;
+let cactusY = 200; // was boardHeight - cactusHeight;
 
 let cactus1Img;
 let cactus3Img;
