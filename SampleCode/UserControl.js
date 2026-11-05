@@ -28,15 +28,27 @@ closeBtn.addEventListener('click', () => {
 const settingsButton = document.getElementById("settings");
 const settingsPopup = document.getElementById("settings-popup");
 const closeSettings = document.getElementById("close");
+
+/* open and close settings */
+settingsButton.addEventListener("click", () => {settingsPopup.classList.add("open-popup");});
+closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("open-popup");});
+
+/* background */
 const bgButton = document.getElementById("background");
 const bgPopup = document.getElementById("bg-popup");
 const backBg = document.getElementById("back-bg")
 
-/* testing */
-console.log(settingsButton);
-
-settingsButton.addEventListener("click", () => {settingsPopup.classList.add("open-settings-popup");});
-closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("open-settings-popup");});
-
 bgButton.addEventListener("click",() => {bgPopup.classList.add("open-bg-popup");});
 backBg.addEventListener("click", () => {bgPopup.classList.remove("open-bg-popup");});
+
+/* character */
+const characterButton = document.getElementById("character");
+const characterPopup = document.getElementById("character-popup");
+const backButton = document.getElementById("backButton");
+
+/* open and close character page */
+characterButton.addEventListener("click", () => {characterPopup.classList.add("open-popup");});
+backButton.addEventListener("click", () => {characterPopup.classList.remove("open-popup");})
+
+
+
