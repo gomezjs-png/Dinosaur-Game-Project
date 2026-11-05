@@ -35,10 +35,13 @@ let dinoRun1;
 let dinoRun2;
 let stagnantDino;
 
+//sound variables
+let jumpSound;
+let duckSound;
+let soundOn = true;
+
 
 // cactus dimensions and PNGs
-let cactusArray = [];
-
 let cactus1Width = 60; //was 34
 let cactus2Width = 69;
 let cactus3Width = 90; //was 102
@@ -53,14 +56,14 @@ let cactus2Img;
 let cactusHasPassed = false;
 
 // Pterodactyl
-let pteroArray = [];
 let pteroWidth =  69;
 let pteroHeight = 84;
 let pteroX = boardWidth;
 let pteroHeights = [25,90,120];
 let pteroSpeed = -10; //How fast pterodactyl will move left
 let pteroFrame = 0;
-let pteroStartScore = 450;
+
+let obstacleArray = [];
 
 // game physics
 let velocityX = -8; //cactus moving left
@@ -111,12 +114,34 @@ window.onload = function () {
     cactus3Img = new Image();
     cactus3Img.src = "PNGs/largeCactus.png";
 
+    //ptero PNGs
+    pteroClosed = new Image();
+    pteroClosed.src = "PNGs/pteroClosed.png";
+
+    pteroOpen = new Image();
+    pteroOpen.src = "PNGs/pteroOpen.png";
+
     // update animation based on action taken
     requestAnimationFrame(update);
-    setInterval(placeCactus, 1500)//1 second
+    setInterval(placeObstacle, 1000)//1 second
+
+    //listens for arrow down to change to ducking png
     document.addEventListener("keydown", moveDino);
     document.addEventListener("keydown", duckDino);
+
+    //listens for the arrow down key to turn back unpressed to draw stagnant dino
     document.addEventListener("keyup", drawDino);
+
+    //if music button is clicked, play sound effects
+    jumpSound = new Audio("INSERT AUDIO HERE (.MP3)")
+    duckSound = new Audio("INSERT AUDIO HERE!!")
+
+    document.getElementById("music").addEventListener("click", function(){
+        //if clicked change boolean
+        soundOn = !soundOn;
+        //change text if boolean is changed
+        this.textContent = soundOn ? "Music: On" : "Music: OFF";
+    });
 
     document.getElementById("restart").addEventListener("click", function(){
         //set all game variables and arrays to 0
@@ -124,28 +149,24 @@ window.onload = function () {
         score = 0;
         dino.y = dinoY;
         velocityY = 0;
-        cactusArray = [];
-        pteroArray = [];
+        obstacleArray = [];
         ducking = false;
         dinoImg = stagnantDino;
+        frameCount = 0;
+        runFrame = 0;
+        isRunning = true;
+        cactusHasPassed = false;
 
         //hide button
         this.style.display = "none";
         requestAnimationFrame(update);
     })
 
-
-    //Spawning in the pterodactyls a couple seconds after the cacti
-    pteroClosed = new Image();
-    pteroClosed.src = "PNGs/pteroClosed.png";
-
-    pteroOpen = new Image();
-    pteroOpen.src = "PNGs/pteroOpen.png";
-    setInterval(placePtero, 4000);
 }
 
 // updates score and all PNGs
 function update(){
+
 
     //if game over is true draw the dead dino, score, and obstacles on the final frame
     if(gameOver){
@@ -160,16 +181,28 @@ function update(){
         context.fillStyle = "black";
         context.fillText(score, boardWidth - 80, 30);
 
-        //freeze cactus
-        for (let i = 0; i < cactusArray.length; i++) {
-            let cactus = cactusArray[i];
-            context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
-        }
+        //redraw every obstacle frozen in place
+        for (let obstacle of obstacleArray) {
+            if (obstacle.type === "ptero") {
+                //pick the wing image for the current animation frame
+                let wingAnim = (Math.floor(pteroFrame / 10) % 2 === 0) ? pteroClosed : pteroOpen;
 
-        let wingAnim = (Math.floor(pteroFrame / 10) % 2 == 0) ? pteroClosed : pteroOpen;
-        for (let i = 0; i < pteroArray.length; i++) {
-            let ptero = pteroArray[i];
-            context.drawImage(wingAnim, ptero.x, ptero.y, ptero.width, ptero.height);
+                context.drawImage(
+                    wingAnim,
+                    obstacle.x,
+                    obstacle.y,
+                    obstacle.width,
+                    obstacle.height
+                );
+            } else {
+                context.drawImage(
+                    obstacle.img,
+                    obstacle.x,
+                    obstacle.y,
+                    obstacle.width,
+                    obstacle.height
+                );
+            }
         }
 
         //make the background darker
@@ -182,6 +215,7 @@ function update(){
         context.textAlign = "center";
         context.fillText("GAME OVER", boardWidth / 2, boardHeight /2);
 
+        //show restart button
         document.getElementById("restart").style.display = "block";
 
         return;
@@ -193,7 +227,7 @@ function update(){
     //clear old frames
     context.clearRect(0,0,board.width, board.height);
 
-    //adding a score count that continuosly updates every 5 frames
+    //adding a score count that continuously updates every 5 frames
     frameCount++;
     if (frameCount % 5 ==0){
         score++;
@@ -230,46 +264,47 @@ function update(){
         isRunning = true;
     }
 
-    // draw cacti
-    for(let i = 0; i < cactusArray.length; i++){
-        let cactus = cactusArray[i];
-        cactus.x += velocityX;
-        //Checking to see if the dinosaur has moved to the left of the dino.
-        // (Will be used to spawn in pterodactyls after cacti)
-        if (cactus.x + cactus.width < 50) {
-            cactusHasPassed = true;
-        }
-        context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+    //ptero Wing animation
+    pteroFrame++
 
-        if (detectCollision(dino, cactus)){
+    //change between closed/open wings
+    let wingAnim = (Math.floor(pteroFrame / 10) % 2 === 0) ? pteroClosed : pteroOpen;
+
+    //move, draw, and check collisions
+    for(let i = 0; i < obstacleArray.length; i++) {
+        let obstacle = obstacleArray[i];
+
+        if (obstacle.type === "ptero") {
+            obstacle.x += pteroSpeed;   //pteros fly faster than cacti
+            obstacle.img = wingAnim;   //update flapping image
+
+        } else {
+            obstacle.x += velocityX;   //cacti scroll left
+        }
+        //draw Obstacle
+        context.drawImage(
+            obstacle.img,
+            obstacle.x,
+            obstacle.y,
+            obstacle.width,
+            obstacle.height
+        );
+
+        if (detectCollision(dino, obstacle)) {
             gameOver = true;
         }
     }
 
-    //drawing pterodactyl
-    pteroFrame++;
-    let wingAnim = (Math.floor(pteroFrame / 10) % 2 ==0)? pteroClosed : pteroOpen;
 
-    for (let i=0; i< pteroArray.length; i++){
-        let ptero = pteroArray[i];
-        ptero.x += pteroSpeed;
-        context.drawImage(wingAnim, ptero.x, ptero.y, ptero.width, ptero.height);
-
-        if (detectCollision(dino,ptero)){
-            gameOver = true;
-        }
-    }
-
-    pteroArray = pteroArray.filter(p => p.x + p.width >0);
 }
 
 //function draws regular dino when arrowdown is released
 function drawDino(e) {
     if (e.code == 'ArrowDown' && ducking) {
-        isRunning = true;
+        isRunning = true;     //resume running animation
         ducking = false;
         dinoImg = stagnantDino;
-        dino.y = dinoY;
+        dino.y = dinoY;    //go back to ground level
     }
 }
 
@@ -279,9 +314,17 @@ function moveDino(e){
         return;
     }
 
+
     if((e.code =="Space" || e.code == "ArrowUp") && dino.y == dinoY){
 
         velocityY = -12;
+
+        //if soundOn variable is true, play audio
+        if(soundOn){
+            jumpSound.currentTime = 0;
+            jumpSound.play();
+        }
+
         // back to stagnant img when jumping
         isRunning = false;
         dinoImg = stagnantDino;
@@ -294,84 +337,107 @@ function duckDino(e){
     if(gameOver){
         return;
     }
-        //only ducks when arrow is pressed down, and ducking isn't already true
-        if (e.code == "ArrowDown" && dino.y == dinoY && !ducking) {
-            ducking = true;
-            isRunning = false;
-            dinoImg = dinoDuckImg;
-            dino.y = 100;
+
+
+    //only ducks when arrow is pressed down, and ducking isn't already true
+    if (e.code == "ArrowDown" && dino.y == dinoY && !ducking) {
+
+        //if soundOn is true, play sound when ducking
+        if(soundOn){
+            duckSound.currentTime = 0;
+            duckSound.play();
         }
+
+        ducking = true;
+        isRunning = false;
+        dinoImg = dinoDuckImg;
+        dino.y = 100;
+
+    }
 
 }
 
 // draws the cacti at random intervals
-function placeCactus(){
+function placeObstacle() {
 
-    if( gameOver){
+    if (gameOver) {
         return;
     }
 
-    let cactus = {
+    //a new obstacle created right at the edge of the board
+    let obstacle = {
         img: null,
-        x: cactusX,
-        y: cactusY,
+        x: boardWidth,
+        y: null,
         width: null,
-        height: cactusHeight
-    }
-
-    let placeCactusChance = Math.random();
-
-    if(placeCactusChance > .90){ // 10% chance of cactus3
-        cactus.img = cactus3Img;
-        cactus.width = cactus3Width;
-        cactusArray.push(cactus);
-    }
-    else if(placeCactusChance > .70) {//30% chance to get c2
-        cactus.img = cactus2Img;
-        cactus.width = cactus2Width;
-        cactusArray.push(cactus);
-
-    }
-    else if(placeCactusChance > .50){ //50% chacne to get cactus
-        cactus.img = cactus1Img;
-        cactus.width = cactus1Width;
-        cactusArray.push(cactus);
-    }
-
-    if(cactusArray.length > 5){
-        cactusArray.shift(); //removes first cactus from array
-    }
-
-}
-
-// draws the pterodactyls at random intervals
-function placePtero(){
-    //if the game has ended, or the running score has not reached a certain level OR a cactus hasnt gone yet
-    if (score < pteroStartScore || gameOver ||!cactusHasPassed ){
-        return;
-    }
-
-    let pterodactyl = {
-        img: pteroClosed,
-        x:pteroX,
-        y: pteroHeights[Math.floor(Math.random()*pteroHeights.length)],
-        width: pteroWidth,
-        height: pteroHeight
+        height: null
     };
-    pteroArray.push(pterodactyl);
 
+    //only cacti spawn below score of 400
+    if (score < 400) {
+
+        let placeCactusChance = Math.random();
+
+        if (placeCactusChance > .90) { // 10% chance of cactus3
+            obstacle.img = cactus3Img;
+            obstacle.width = cactus3Width;
+        } else if (placeCactusChance > .70) {//30% chance to get c2
+            obstacle.img = cactus2Img;
+            obstacle.width = cactus2Width;
+
+        } else if (placeCactusChance > .50) { //50% chacne to get cactus
+            obstacle.img = cactus1Img;
+            obstacle.width = cactus1Width;
+        } else {
+            return;
+        }
+
+        if (obstacleArray.length > 5) {
+            obstacleArray.shift(); //removes first cactus from array
+        }
+
+        obstacle.y = cactusY;
+        obstacle.height = cactusHeight;
+        obstacle.type = "cactus";
+
+    } else {
+        let placePteroChance = Math.random();
+
+        if (placePteroChance > 0.65) {       //35% chance of ptero
+            obstacle.img = pteroClosed;
+            obstacle.width = pteroWidth;
+            obstacle.height = pteroHeight;
+
+            //one of three flying heights at random
+            obstacle.y = pteroHeights[
+                Math.floor(Math.random() * pteroHeights.length)
+                ];
+
+            obstacle.type = "ptero";
+
+        } else {    //otherwise spawn small cactus
+            obstacle.img = cactus1Img;
+            obstacle.width = cactus1Width;
+            obstacle.height = cactusHeight;
+            obstacle.y = cactusY;
+            obstacle.type = "cactus";
+        }
+    }
+    obstacleArray.push(obstacle);  //add the obstacle to the game
 }
 
 // collision detection when hitting cacti or pterodactyls
-function detectCollision(a,b){
-    //add offsets to shrink the hitbox so only collides where
-    //the dino body is visible
+function detectCollision(a, b) {
+        //add offsets to shrink the hitbox so only collides where
+        //the dino body is visible
 
-    let offsetX = 15;
-    let offsetY = 60;
+        let offsetX = 45;
+        let offsetY = 60;
 
-    return a.x + offsetX < b.x + b.width &&
-        a.x + a.width - offsetX > b.x &&
-        a.y + offsetY < b.y + b.height &&
-        a.y + a.height - offsetY > b.y;
-}
+
+        return a.x + offsetX < b.x + b.width &&
+            a.x + a.width - offsetX > b.x &&
+            a.y + offsetY < b.y + b.height &&
+            a.y + a.height - offsetY > b.y;
+    }
+
