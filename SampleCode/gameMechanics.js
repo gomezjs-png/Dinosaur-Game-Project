@@ -133,8 +133,8 @@ window.onload = function () {
     document.addEventListener("keyup", drawDino);
 
     //if music button is clicked, play sound effects
-    jumpSound = new Audio("INSERT AUDIO HERE (.MP3)")
-    duckSound = new Audio("INSERT AUDIO HERE!!")
+    jumpSound = new Audio("Audio/roblox-classic-jump.mp3")
+    duckSound = new Audio("Audio/roblox-classic-jump.mp3")
 
     document.getElementById("music").addEventListener("click", function(){
         //if clicked change boolean
