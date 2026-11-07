@@ -51,7 +51,6 @@ Will hold most information for the base site creation.
             <button id = "settings" class = "settings-img">
                 <img src ="PNGs/settings_cog.png" alt = "settings">
             </button>
-
             <div id = "settings-popup" class = "settings-popup">
                 <h1>Settings</h1>
                 <div class = "settings-row">
@@ -60,10 +59,9 @@ Will hold most information for the base site creation.
                     <button id = "character" class = "options">Character</button>
                     <button id = "background" class = "options">Background</button>
                 </div>
-
                 <button id = "close" class = close>x</button>
             </div>
-
+            <!--background popup-->
             <div id = "bg-popup" class = "bg-popup">
                 <h1>Background</h1>
                 <div class = "bg-row">
@@ -75,10 +73,18 @@ Will hold most information for the base site creation.
             <div id = "character-popup" class = "settings-popup">
                 <h1>Characters</h1>
                 <button id = "backButton" class = "back-button"><--</button>
+                <!--character selection-->
+                <div class = settings-row>
+                    <button id = "steg" class = "dino">
+                        <img src = "PNGs/steg03.png" alt = "Steg">
+                    </button>
+                    <button id = "brach" class = "dino">
+                        <img src = "PNGs/brach.png">
+                    </button>
+                </div>
             </div>
         </header>
-
-
+        <!--game over-->
         <div class = container>
             <h1>Dinosaur Game</h1>
             <canvas id = "board"></canvas>

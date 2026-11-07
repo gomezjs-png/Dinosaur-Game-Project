@@ -33,6 +33,7 @@ const closeSettings = document.getElementById("close");
 settingsButton.addEventListener("click", () => {settingsPopup.classList.add("open-popup");});
 closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("open-popup");});
 
+
 /* background */
 const bgButton = document.getElementById("background");
 const bgPopup = document.getElementById("bg-popup");
@@ -40,6 +41,7 @@ const backBg = document.getElementById("back-bg")
 
 bgButton.addEventListener("click",() => {bgPopup.classList.add("open-bg-popup");});
 backBg.addEventListener("click", () => {bgPopup.classList.remove("open-bg-popup");});
+
 
 /* character */
 const characterButton = document.getElementById("character");

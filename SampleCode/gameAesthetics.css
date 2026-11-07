@@ -218,6 +218,7 @@ p,
     font-size: large;
 }
 
+/* displays buttons in a row */
 .settings-popup .settings-row {
     display: flex;
     flex-direction: column;
@@ -288,6 +289,21 @@ p,
     font-size: 1.2rem;
 }
 
+/* removes default background */
+.dino {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* sizes dino buttons */
+.dino img {
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: -15px;
+}
 
 /* --------------- */
 /* game over button*/
