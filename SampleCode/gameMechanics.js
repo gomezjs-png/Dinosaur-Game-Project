@@ -11,12 +11,13 @@ let boardWidth = 750;
 let boardHeight = 250;
 let context;
 
-// set dino dimensions and PNG
+// set default dino dimensions and PNG
 let dinoWidth = 174; // was 88
 let dinoHeight = 170; // was 84
 let dinoX = 30; // was 50
 let dinoY= 120; // was boardHeight - dinoHeight;
 let dinoImg;
+let dinoDead;
 let dino = {
     x: dinoX,
     y: dinoY,
@@ -25,6 +26,7 @@ let dino = {
 }
 
 // ducking animation
+let dinoDuckImg;
 let ducking = false;
 
 // running animation
@@ -39,7 +41,6 @@ let stagnantDino;
 let jumpSound;
 let duckSound;
 let soundOn = true;
-
 
 // cactus dimensions and PNGs
 let cactus1Width = 60; //was 34
@@ -56,6 +57,8 @@ let cactus2Img;
 let cactusHasPassed = false;
 
 // Pterodactyl
+let pteroClosed;
+let pteroOpen;
 let pteroWidth =  69;
 let pteroHeight = 84;
 let pteroX = boardWidth;
@@ -74,6 +77,29 @@ let gameOver = false;
 let score = 0;
 let frameCount = 0;
 
+// if dinosaur changes
+let dinoChoice;
+// brach option
+const brach = document.getElementById("brach");
+brach.addEventListener("click", () => {
+    dinoWidth = 154;
+    dinoHeight = 150;
+    dinoX = 30;
+    dinoY = 90;
+    dinoChoice = 2;
+    //alert("Dino changed to Brachiosaurus!");
+});
+// back to steg option
+const steg = document.getElementById("steg");
+steg.addEventListener("click", () => {
+    dinoWidth = 174;
+    dinoHeight = 170;
+    dinoX = 30;
+    dinoY = 120;
+    dinoChoice = 1;
+    //alert("Dino changed to Stegosaurus!");
+});
+
 // load everything once opened
 window.onload = function () {
     board = document.getElementById("board");
@@ -84,25 +110,47 @@ window.onload = function () {
     // makes PNG not blurry
     context.imageSmoothingEnabled = false;
 
-    // stagnant dino PNG
+    // default stagnant dino PNG
     dinoImg = new Image();
     dinoImg.src = "PNGs/steg03.png";
     stagnantDino = new Image();
     stagnantDino.src = "PNGs/steg03.png";
 
-    //dino dead PNG
+    // default dino dead PNG
     dinoDead = new Image();
     dinoDead.src = "PNGs/steg03_dead.png";
 
-    // ducking dino PNG
+    // default ducking dino PNG
     dinoDuckImg = new Image();
     dinoDuckImg.src = "PNGs/steg03_duck.png";
 
-    // running PNGs
+    // default running PNGs
     dinoRun1 = new Image();
     dinoRun2 = new Image();
     dinoRun1.src = "PNGs/steg03_move01.png";
     dinoRun2.src = "PNGs/steg03_move02.png";
+
+    // if dinosaur is changed
+    // brach
+    brach.addEventListener("click", () => {
+        dinoImg.src = "PNGs/brach.png";
+        stagnantDino.src = "PNGs/brach.png";
+        dinoDead.src = "PNGs/brach_dead.png";
+        dinoDuckImg.src = "PNGs/brach_duck.png";
+        dinoRun1.src = "PNGs/brach_move01.png";
+        dinoRun2.src = "PNGs/brach_move02.png";
+        dinoChoice = 2;
+    });
+    // steg
+    steg.addEventListener("click", () => {
+        dinoImg.src = "PNGs/steg03.png";
+        stagnantDino.src = "PNGs/steg03.png";
+        dinoDead.src = "PNGs/steg03_dead.png";
+        dinoDuckImg.src = "PNGs/steg03_duck.png";
+        dinoRun1.src = "PNGs/steg03_move01.png";
+        dinoRun2.src = "PNGs/steg03_move02.png";
+        dinoChoice = 1;
+    })
 
     // cacti PNGs
     cactus1Img = new Image();
@@ -353,6 +401,11 @@ function duckDino(e){
         dinoImg = dinoDuckImg;
         dino.y = 100;
 
+        // doesn't change?
+        if (dinoChoice === 2) {
+            dino.y = 50;
+        }
+
     }
 
 }
@@ -432,8 +485,12 @@ function detectCollision(a, b) {
         //the dino body is visible
 
         let offsetX = 45;
-        let offsetY = 60;
+        let offsetY = 40; // was 60
 
+        /*
+         if (dinoChoice === 2) {
+            offsetY = 40;
+        */
 
         return a.x + offsetX < b.x + b.width &&
             a.x + a.width - offsetX > b.x &&
