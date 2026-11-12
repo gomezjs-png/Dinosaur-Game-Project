@@ -243,13 +243,15 @@ p,
     z-index: 10;
 }
 
+/*change visibility to seen when background is clicked*/
 .open-bg-popup {
     visibility: visible;
 }
 
+/*move < to top left*/
 .bg-popup .back {
     position: absolute;
-    top: 30px;
+    top: 10px;
     left: 11px;
     cursor: pointer;
     font-family: "Courier New", monospace;
@@ -258,6 +260,20 @@ p,
     font-size: 1.2rem;
 }
 
+/*move x to top right*/
+.bg-popup .close {
+    position: absolute;
+    top: 10px;
+    right: 11px;
+    cursor: pointer;
+    font-family: "Courier New", monospace;
+    border-color: transparent;
+    background: transparent;
+    font-size: 1.2rem;
+}
+
+
+/*button display*/
 .bg-popup .options {
     cursor: pointer;
     background: lightgray;
@@ -267,6 +283,7 @@ p,
     font-size: large;
 }
 
+/*row display*/
 .bg-popup .bg-row {
     display: flex;
     flex-direction: column;

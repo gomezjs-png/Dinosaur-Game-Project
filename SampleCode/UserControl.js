@@ -38,9 +38,11 @@ closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("o
 const bgButton = document.getElementById("background");
 const bgPopup = document.getElementById("bg-popup");
 const backBg = document.getElementById("back-bg")
+const closeBg = document.getElementById("close-bg")
 
 bgButton.addEventListener("click",() => {bgPopup.classList.add("open-bg-popup");});
 backBg.addEventListener("click", () => {bgPopup.classList.remove("open-bg-popup");});
+closeBg.addEventListener("click", ()=>{bgPopup.classList.remove("open-bg-popup"), settingsPopup.classList.remove("open-popup");});
 
 
 /* character */
@@ -51,6 +53,3 @@ const backButton = document.getElementById("backButton");
 /* open and close character page */
 characterButton.addEventListener("click", () => {characterPopup.classList.add("open-popup");});
 backButton.addEventListener("click", () => {characterPopup.classList.remove("open-popup");})
-
-
-

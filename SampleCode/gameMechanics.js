@@ -1,7 +1,7 @@
 /*
 Dinosaur Project
 gameMechanics.js
-This javascript document will hold most of the game mechanics for our game ie. keyboard input,
+This JavaScript document will hold most of the game mechanics for our game i.e. keyboard input,
 obstacle mechanics, etc.
 */
 
@@ -48,7 +48,7 @@ let cactus2Width = 69;
 let cactus3Width = 90; //was 102
 
 let cactusHeight = 60;
-let cactusX = 700;
+//let cactusX = 700;
 let cactusY = 200; // was boardHeight - cactusHeight;
 
 let cactus1Img;
@@ -61,7 +61,7 @@ let pteroClosed;
 let pteroOpen;
 let pteroWidth =  69;
 let pteroHeight = 84;
-let pteroX = boardWidth;
+//let pteroX = boardWidth;
 let pteroHeights = [25,90,120];
 let pteroSpeed = -10; //How fast pterodactyl will move left
 let pteroFrame = 0;
@@ -188,7 +188,7 @@ window.onload = function () {
         //if clicked change boolean
         soundOn = !soundOn;
         //change text if boolean is changed
-        this.textContent = soundOn ? "Music: On" : "Music: OFF";
+        this.textContent = soundOn ? "Music: ON" : "Music: OFF";
     });
 
     document.getElementById("restart").addEventListener("click", function(){
@@ -277,7 +277,7 @@ function update(){
 
     //adding a score count that continuously updates every 5 frames
     frameCount++;
-    if (frameCount % 5 ==0){
+    if (frameCount % 5 === 0){
         score++;
     }
     context.font = "20px Courier";
@@ -289,7 +289,10 @@ function update(){
         velocityY += gravity;
         dino.y = Math.min(dino.y + velocityY, dinoY);
     } else {
-        dino.y = 130;
+       if(dinoChoice === 2){
+           dino.y = 100;
+       } else{ dino.y = 130;}
+
     }
 
     // running animation
@@ -323,7 +326,7 @@ function update(){
         let obstacle = obstacleArray[i];
 
         if (obstacle.type === "ptero") {
-            obstacle.x += pteroSpeed;   //pteros fly faster than cacti
+            obstacle.x += pteroSpeed;   //pterodactyls fly faster than cacti
             obstacle.img = wingAnim;   //update flapping image
 
         } else {
@@ -346,9 +349,9 @@ function update(){
 
 }
 
-//function draws regular dino when arrowdown is released
+//function draws regular dino when arrow down is released
 function drawDino(e) {
-    if (e.code == 'ArrowDown' && ducking) {
+    if (e.code === 'ArrowDown' && ducking) {
         isRunning = true;     //resume running animation
         ducking = false;
         dinoImg = stagnantDino;
@@ -356,14 +359,14 @@ function drawDino(e) {
     }
 }
 
-// draws the dinosaur jumping when space or arrowup is pressed
+// draws the dinosaur jumping when space or arrow up is pressed
 function moveDino(e){
     if(gameOver){
         return;
     }
 
 
-    if((e.code =="Space" || e.code == "ArrowUp") && dino.y == dinoY){
+    if((e.code === "Space" || e.code === "ArrowUp") && dino.y === dinoY){
 
         velocityY = -12;
 
@@ -379,7 +382,7 @@ function moveDino(e){
     }
 }
 
-// draws the dinosaur ducking when arrowdown is pressed
+// draws the dinosaur ducking when arrow down is pressed
 function duckDino(e){
 
     if(gameOver){
@@ -388,7 +391,7 @@ function duckDino(e){
 
 
     //only ducks when arrow is pressed down, and ducking isn't already true
-    if (e.code == "ArrowDown" && dino.y == dinoY && !ducking) {
+    if (e.code === "ArrowDown" && dino.y === dinoY && !ducking) {
 
         //if soundOn is true, play sound when ducking
         if(soundOn){
@@ -482,7 +485,7 @@ function placeObstacle() {
 // collision detection when hitting cacti or pterodactyls
 function detectCollision(a, b) {
         //add offsets to shrink the hitbox so only collides where
-        //the dino body is visible
+        //the dinosaur body is visible
 
         let offsetX = 45;
         let offsetY = 40; // was 60

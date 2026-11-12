@@ -6,89 +6,90 @@ siteCreation.html
 Will hold most information for the base site creation.
 -->
 <html lang="en">
-    <head>
-        <meta charset = "utf-8" />
-        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
-        <title>Dinosaur Game</title>
-        <script src="gameMechanics.js" defer></script>
-        <script src="UserControl.js" defer></script>
-        <link href = "gameAesthetics.css" type = "text/css" rel = "stylesheet">
-    </head>
+<head>
+    <meta charset = "utf-8" />
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <title>Dinosaur Game</title>
+    <script src="gameMechanics.js" defer></script>
+    <script src="UserControl.js" defer></script>
+    <link href = "gameAesthetics.css" type = "text/css" rel = "stylesheet">
+</head>
 
-    <body>
+<body>
 
-    <!--
-    Creating a header section to store user elements like login and settings
-    -->
-        <header>
-            <!--Login and Signup-->
-            <button class = "btn">Login / Signup</button>
-            <div class = "black-wrapper">
-                <form action="" class="popup">
-                    <button class="close">x</button>
-                    <h2>Wanna Save your progress? Become a member</h2>
-                    <div class="content">
+<!--
+Creating a header section to store user elements like login and settings
+-->
+<header>
+    <!--Login and Signup-->
+    <button class = "btn">Login / Signup</button>
+    <div class = "black-wrapper">
+        <form action="" class="popup">
+            <button class="close">x</button>
+            <h2>Wanna Save your progress? Become a member</h2>
+            <div class="content">
 
-                        <div class="row">
-                            <label for="username">Username</label>
-                            <input type="text" id="username" placeholder="Morty" required>
-                        </div>
-                        <div class="row">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="mort@gmail.com" required>
-                        </div>
-                        <div class="row">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="••••••••" required>
-                        </div>
-                        <button class="btn2">Submit</button>
-                        <!--<p>Already have an account?</p>
-                        <button id = "signInPage">Sign in here</button>-->
-                    </div>
-                </form>
-            </div>
-            <!-- settings -->
-            <button id = "settings" class = "settings-img">
-                <img src ="PNGs/settings_cog.png" alt = "settings">
-            </button>
-            <div id = "settings-popup" class = "settings-popup">
-                <h1>Settings</h1>
-                <div class = "settings-row">
-                    <button id = "achievements" class = "options">Achievements</button>
-                    <button id = "highscores" class = "options">Highscores</button>
-                    <button id = "character" class = "options">Character</button>
-                    <button id = "background" class = "options">Background</button>
+                <div class="row">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Morty" required>
                 </div>
-                <button id = "close" class = close>x</button>
-            </div>
-            <!--background popup-->
-            <div id = "bg-popup" class = "bg-popup">
-                <h1>Background</h1>
-                <div class = "bg-row">
-                    <button id = "music" class = "options">Music: OFF</button>
+                <div class="row">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="mort@gmail.com" required>
                 </div>
-                <button id = "back-bg" class = back><</button>
-            </div>
-            <!--character popup-->
-            <div id = "character-popup" class = "settings-popup">
-                <h1>Characters</h1>
-                <button id = "backButton" class = "back-button"><--</button>
-                <!--character selection-->
-                <div class = settings-row>
-                    <button id = "steg" class = "dino">
-                        <img src = "PNGs/steg03.png" alt = "Steg">
-                    </button>
-                    <button id = "brach" class = "dino" alt = "Brach">
-                        <img src = "PNGs/brach.png">
-                    </button>
+                <div class="row">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
                 </div>
+                <button class="btn2">Submit</button>
+                <!--<p>Already have an account?</p>
+                <button id = "signInPage">Sign in here</button>-->
             </div>
-        </header>
-        <!--game over-->
-        <div class = container>
-            <h1>Dinosaur Game</h1>
-            <canvas id = "board"></canvas>
-            <button id = "restart" style = "display: none; position: relative;">Play Again!</button>
+        </form>
+    </div>
+    <!-- settings -->
+    <button id = "settings" class = "settings-img">
+        <img src ="PNGs/settings_cog.png" alt = "settings">
+    </button>
+    <div id = "settings-popup" class = "settings-popup">
+        <h1>Settings</h1>
+        <div class = "settings-row">
+            <button id = "achievements" class = "options">Achievements</button>
+            <button id = "highscores" class = "options">Highscores</button>
+            <button id = "character" class = "options">Character</button>
+            <button id = "background" class = "options">Background</button>
         </div>
-    </body>
+        <button id = "close" class = close>x</button>
+    </div>
+    <!--background popup-->
+    <div id = "bg-popup" class = "bg-popup">
+        <h1>Background</h1>
+        <div class = "bg-row">
+            <button id = "music" class = "options">Music: ON</button>
+        </div>
+        <button id = "back-bg" class = back><</button>
+        <button id = "close-bg" class = close>x</button>
+    </div>
+    <!--character popup-->
+    <div id = "character-popup" class = "settings-popup">
+        <h1>Characters</h1>
+        <button id = "backButton" class = "back-button"><--</button>
+        <!--character selection-->
+        <div class = settings-row>
+            <button id = "steg" class = "dino">
+                <img src = "PNGs/steg03.png" alt = "Steg">
+            </button>
+            <button id = "brach" class = "dino" alt = "Brach">
+                <img src = "PNGs/brach.png">
+            </button>
+        </div>
+    </div>
+</header>
+<!--game over-->
+<div class = container>
+    <h1>Dinosaur Game</h1>
+    <canvas id = "board"></canvas>
+    <button id = "restart" style = "display: none; position: relative;">Play Again!</button>
+</div>
+</body>
 </html>
