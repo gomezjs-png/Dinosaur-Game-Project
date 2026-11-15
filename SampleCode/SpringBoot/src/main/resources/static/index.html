@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<!--
+Dinosaur Project
+siteCreation.html
+Will hold most information for the base site creation.
+-->
+<html lang="en">
+    <head>
+        <meta charset = "utf-8" />
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+        <title>Dinosaur Game</title>
+        <script src="gameMechanics.js" defer></script>
+        <script src="UserControl.js" defer></script>
+        <link href = "gameAesthetics.css" type = "text/css" rel = "stylesheet">
+    </head>
+
+    <body>
+
+    <!--
+    Creating a header section to store user elements like login and settings
+    -->
+        <header>
+            <!--Login and Signup-->
+            <button class = "btn">Login / Signup</button>
+            <div class = "black-wrapper">
+                <div class="popup">
+                    <button type = "button" class="close">x</button>
+                    <h2>Wanna Save your progress? Become a member</h2>
+                    <!-- Creating sign up section -->
+                    <form id = "signupForm" class="contentSignUp">
+
+                        <div class="row">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" placeholder="Morty" required>
+                        </div>
+                        <div class="row">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="mort@gmail.com" required>
+                        </div>
+                        <div class="row">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="••••••••" required>
+                        </div>
+                        <button class="btn2">Submit</button>
+                        <p>Already have an account?</p>
+                        <button id = "signInPage">Sign in here</button>
+                    </form>
+                    <!-- Creating log in section(Wont show up until login button is clicked -->
+                    <form id = "signinForm" class="contentSignIn" hidden>
+                        <div class="row">
+                            <label for="usernameChosen">Username or Email</label>
+                            <input type="text" id="usernameChosen" placeholder="Enter username" required autocomplete="username">
+                        </div>
+                        <div class="row">
+                            <label for="passwordChosen">Password</label>
+                            <input type="password" id="passwordChosen" placeholder="••••••••" required autocomplete="current-password">
+                        </div>
+                        <button type = "submit" class = "btn2">Sign in</button>
+                        <p>Need an account?</p>
+                        <button type = "button" id = "signupPage">Sign up here</button>
+                    </form>
+                    <!--Adding success and error messages from the server -->
+                    <p id = "authMessage" role = "status"></p>
+                </div>
+            </div>
+            <!-- settings -->
+            <button id = "settings" class = "settings-img">
+                <img src ="PNGs/settings_cog.png" alt = "settings">
+            </button>
+
+            <div id = "settings-popup" class = "settings-popup">
+                <h1>Settings</h1>
+                <div class = "settings-row">
+                    <button id = "achievements" class = "options">Achievements</button>
+                    <button id = "highscores" class = "options">Highscores</button>
+                    <button id = "character" class = "options">Character</button>
+                    <button id = "background" class = "options">Background</button>
+                </div>
+                <button id = "close" class = close>x</button>
+            </div>
+        </header>
+
+
+        <div class = container>
+            <h1>Dinosaur Game</h1>
+            <canvas id = "board"></canvas>
+            <button id = "restart" style = "display: none; position: relative;">Play Again!</button>
+        </div>
+    </body>
+</html>
