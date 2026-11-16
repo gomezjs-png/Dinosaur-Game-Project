@@ -87,7 +87,6 @@ brach.addEventListener("click", () => {
     dinoX = 30;
     dinoY = 90;
     dinoChoice = 2;
-    //alert("Dino changed to Brachiosaurus!");
 });
 // back to steg option
 const steg = document.getElementById("steg");
@@ -97,7 +96,6 @@ steg.addEventListener("click", () => {
     dinoX = 30;
     dinoY = 120;
     dinoChoice = 1;
-    //alert("Dino changed to Stegosaurus!");
 });
 
 // load everything once opened
@@ -404,10 +402,6 @@ function duckDino(e){
         dinoImg = dinoDuckImg;
         dino.y = 100;
 
-        // doesn't change?
-        if (dinoChoice === 2) {
-            dino.y = 50;
-        }
 
     }
 

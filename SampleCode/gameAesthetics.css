@@ -297,7 +297,7 @@ p,
 /* back button stylization */
 .back-button {
     position: absolute;
-    top: 10px;
+    top: 23px;
     left: 11px;
     cursor: pointer;
     font-family: "Courier New", monospace;
@@ -310,7 +310,7 @@ p,
 .dino {
     background: none;
     border: none;
-    padding: 0;
+    padding: 12px;
     cursor: pointer;
 }
 
@@ -318,8 +318,24 @@ p,
 .dino img {
     width: 120px;
     height: auto;
-    display: block;
-    margin: -15px;
+    margin: -18px;
+}
+
+/* changes the border for the selected dino */
+.select-dino {
+    border: aqua;
+    border-radius: 10px;
+    border-style: groove;
+}
+
+/* displays dinos in a row */
+.dino-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+    position: sticky;
 }
 
 /* --------------- */

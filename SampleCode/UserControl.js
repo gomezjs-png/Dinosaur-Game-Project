@@ -48,8 +48,17 @@ closeBg.addEventListener("click", ()=>{bgPopup.classList.remove("open-bg-popup")
 /* character */
 const characterButton = document.getElementById("character");
 const characterPopup = document.getElementById("character-popup");
-const backButton = document.getElementById("backButton");
+const backButton = document.getElementById("back-button");
+const closeCharacter = document.getElementById("close-character");
+const stegButton = document.getElementById("steg");
+const brachButton = document.getElementById("brach");
 
 /* open and close character page */
 characterButton.addEventListener("click", () => {characterPopup.classList.add("open-popup");});
 backButton.addEventListener("click", () => {characterPopup.classList.remove("open-popup");})
+closeCharacter.addEventListener("click", () => {characterPopup.classList.remove("open-popup"); settingsPopup.classList.remove("open-popup");});
+
+/* shows which dino is selected */
+stegButton.addEventListener("click", () => {stegButton.classList.add("select-dino"); brachButton.classList.remove("select-dino")});
+brachButton.addEventListener("click", () => {brachButton.classList.add("select-dino"); stegButton.classList.remove("select-dino")})
+
