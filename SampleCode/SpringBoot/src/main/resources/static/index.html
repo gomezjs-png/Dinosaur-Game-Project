@@ -68,7 +68,6 @@ Will hold most information for the base site creation.
             <button id = "settings" class = "settings-img">
                 <img src ="PNGs/settings_cog.png" alt = "settings">
             </button>
-
             <div id = "settings-popup" class = "settings-popup">
                 <h1>Settings</h1>
                 <div class = "settings-row">
@@ -79,9 +78,32 @@ Will hold most information for the base site creation.
                 </div>
                 <button id = "close" class = close>x</button>
             </div>
+            <!--background popup-->
+            <div id = "bg-popup" class = "bg-popup">
+                <h1>Background</h1>
+                <div class = "bg-row">
+                    <button id = "music" class = "options">Music: OFF</button>
+                </div>
+                <button id = "back-bg" class = back><</button>
+                <button id = "close-bg" class = close>x</button>
+            </div>
+            <!--character popup-->
+            <div id = "character-popup" class = "settings-popup">
+                <h1>Characters</h1>
+                <button id = "back-button" class = "back-button"><</button>
+                <button id = "close-character" class = "close">x</button>
+                <!--character selection-->
+                <div class = dino-row>
+                    <button id = "steg" class = "dino">
+                        <img src = "PNGs/steg03.png" alt = "Steg">
+                    </button>
+                    <button id = "brach" class = "dino">
+                        <img src = "PNGs/brach.png" alt = "Brach">
+                    </button>
+                </div>
+            </div>
         </header>
-
-
+        <!--game over-->
         <div class = container>
             <h1>Dinosaur Game</h1>
             <canvas id = "board"></canvas>

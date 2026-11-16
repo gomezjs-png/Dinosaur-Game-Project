@@ -192,8 +192,8 @@ p,
     z-index: 10;
 }
 
-/* controls settings popup visbility */
-.open-settings-popup {
+/* controls popup visbility */
+.open-popup {
     visibility: visible;
 }
 
@@ -219,6 +219,7 @@ p,
     font-size: large;
 }
 
+/* displays buttons in a row */
 .settings-popup .settings-row {
     display: flex;
     flex-direction: column;
@@ -227,7 +228,120 @@ p,
     margin: 30px;
 }
 
+/*background popup*/
+.bg-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    background: white;
+    outline: 1px solid black;
+    font-family: "Courier New", monospace;
+    border-radius: 5px;
+    visibility: hidden;
+    z-index: 10;
+}
+
+/*change visibility to seen when background is clicked*/
+.open-bg-popup {
+    visibility: visible;
+}
+
+/*move < to top left*/
+.bg-popup .back {
+    position: absolute;
+    top: 10px;
+    left: 11px;
+    cursor: pointer;
+    font-family: "Courier New", monospace;
+    border-color: transparent;
+    background: transparent;
+    font-size: 1.2rem;
+}
+
+/*move x to top right*/
+.bg-popup .close {
+    position: absolute;
+    top: 10px;
+    right: 11px;
+    cursor: pointer;
+    font-family: "Courier New", monospace;
+    border-color: transparent;
+    background: transparent;
+    font-size: 1.2rem;
+}
+
+
+/*button display*/
+.bg-popup .options {
+    cursor: pointer;
+    background: lightgray;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: "Courier New", monospace;
+    font-size: large;
+}
+
+/*row display*/
+.bg-popup .bg-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 30px;
+}
+
+/* character popup */
+
+/* back button stylization */
+.back-button {
+    position: absolute;
+    top: 23px;
+    left: 11px;
+    cursor: pointer;
+    font-family: "Courier New", monospace;
+    border-color: transparent;
+    background: transparent;
+    font-size: 1.2rem;
+}
+
+/* removes default background */
+.dino {
+    background: none;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+}
+
+/* sizes dino buttons */
+.dino img {
+    width: 120px;
+    height: auto;
+    margin: -18px;
+}
+
+/* changes the border for the selected dino */
+.select-dino {
+    border: aqua;
+    border-radius: 10px;
+    border-style: groove;
+}
+
+/* displays dinos in a row */
+.dino-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+    position: sticky;
+}
+
+/* --------------- */
 /* game over button*/
+/* --------------- */
 
 #restart {
     border: 2px solid black;

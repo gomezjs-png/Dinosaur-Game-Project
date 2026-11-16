@@ -105,7 +105,7 @@ signinForm.addEventListener("submit", async(e) =>{
         showMessage(data.error || "sign in failed.", true);
     }
 });
-//Keeping greeting if the page is refreshed
+//Keeping a greeting if the page is refreshed
 const savedUser = sessionStorage.getItem("dinoUser");
 if(savedUser){
     openBtn.textContent = "Hi " + savedUser;
@@ -120,9 +120,36 @@ const settingsButton = document.getElementById("settings");
 const settingsPopup = document.getElementById("settings-popup");
 const closeSettings = document.getElementById("close");
 
-/* testing */
-console.log(settingsButton);
+/* open and close settings */
+settingsButton.addEventListener("click", () => {settingsPopup.classList.add("open-popup");});
+closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("open-popup");});
 
-settingsButton.addEventListener("click", () => {settingsPopup.classList.add("open-settings-popup");});
 
-closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("open-settings-popup");})
+/* background */
+const bgButton = document.getElementById("background");
+const bgPopup = document.getElementById("bg-popup");
+const backBg = document.getElementById("back-bg")
+const closeBg = document.getElementById("close-bg")
+
+bgButton.addEventListener("click",() => {bgPopup.classList.add("open-bg-popup");});
+backBg.addEventListener("click", () => {bgPopup.classList.remove("open-bg-popup");});
+closeBg.addEventListener("click", ()=>{bgPopup.classList.remove("open-bg-popup"), settingsPopup.classList.remove("open-popup");});
+
+
+/* character */
+const characterButton = document.getElementById("character");
+const characterPopup = document.getElementById("character-popup");
+const backButton = document.getElementById("back-button");
+const closeCharacter = document.getElementById("close-character");
+const stegButton = document.getElementById("steg");
+const brachButton = document.getElementById("brach");
+
+/* open and close character page */
+characterButton.addEventListener("click", () => {characterPopup.classList.add("open-popup");});
+backButton.addEventListener("click", () => {characterPopup.classList.remove("open-popup");})
+closeCharacter.addEventListener("click", () => {characterPopup.classList.remove("open-popup"); settingsPopup.classList.remove("open-popup");});
+
+/* shows which dino is selected */
+stegButton.addEventListener("click", () => {stegButton.classList.add("select-dino"); brachButton.classList.remove("select-dino")});
+brachButton.addEventListener("click", () => {brachButton.classList.add("select-dino"); stegButton.classList.remove("select-dino")})
+
