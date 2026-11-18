@@ -297,7 +297,7 @@ p,
 /* back button stylization */
 .back-button {
     position: absolute;
-    top: 23px;
+    top: 10px;
     left: 11px;
     cursor: pointer;
     font-family: "Courier New", monospace;
@@ -389,3 +389,25 @@ p,
     border-bottom: 1px dotted #ccc;
 }
 
+/* ----------------- */
+/* game start button */
+/* ----------------- */
+
+/* removes background of PNG and places
+the button in the middle of the canvas */
+.play-button {
+    background: none;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* resizes the play button */
+.play-button img {
+    width: 120px;
+    height: auto;
+}
