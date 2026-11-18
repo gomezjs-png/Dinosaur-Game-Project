@@ -1,7 +1,7 @@
 /*
 Dinosaur Project
 UserControl.js
-This javascript document will hold interactive user aspects inside the site.
+This JavaScript document will hold interactive user aspects inside the site.
 */
 console.log('script is running');
 const openBtn = document.querySelector('.btn');
@@ -58,7 +58,7 @@ characterButton.addEventListener("click", () => {characterPopup.classList.add("o
 backButton.addEventListener("click", () => {characterPopup.classList.remove("open-popup");})
 closeCharacter.addEventListener("click", () => {characterPopup.classList.remove("open-popup"); settingsPopup.classList.remove("open-popup");});
 
-/* shows which dino is selected */
+/* shows which dinosaur is selected */
 stegButton.addEventListener("click", () => {stegButton.classList.add("select-dino"); brachButton.classList.remove("select-dino")});
 brachButton.addEventListener("click", () => {brachButton.classList.add("select-dino"); stegButton.classList.remove("select-dino")})
 
