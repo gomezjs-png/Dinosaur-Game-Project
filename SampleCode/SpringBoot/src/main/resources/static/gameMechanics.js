@@ -208,6 +208,14 @@ window.onload = function () {
         requestAnimationFrame(update);
     })
 
+    //initial play button
+    document.getElementById("play").addEventListener("click", function() {
+        //starts game
+        gamePlay = true;
+
+        //hide button after pressed
+        this.style.display = "none";
+    });
 }
 
 // updates score and all PNGs
@@ -270,81 +278,86 @@ function update(){
 
     requestAnimationFrame(update);
 
-    //clear old frames
-    context.clearRect(0,0,board.width, board.height);
+    //play game when button pressed
+    if (gamePlay) {
 
-    //adding a score count that continuously updates every 5 frames
-    frameCount++;
-    if (frameCount % 5 === 0){
-        score++;
-    }
-    context.font = "20px Courier";
-    context.fillStyle = "black";
-    context.fillText(score, boardWidth - 80, 30);
+        //clear old frames
+        context.clearRect(0, 0, board.width, board.height);
 
-    //dino gravity ONLY when not ducking
-   if(!ducking) {
-        velocityY += gravity;
-        dino.y = Math.min(dino.y + velocityY, dinoY);
-    } else {
-       if(dinoChoice === 2){
-           dino.y = 100;
-       } else{ dino.y = 130;}
+        //adding a score count that continuously updates every 5 frames
+        frameCount++;
+        if (frameCount % 5 === 0) {
+            score++;
+        }
+        context.font = "20px Courier";
+        context.fillStyle = "black";
+        context.fillText(score, boardWidth - 80, 30);
 
-    }
-
-    // running animation
-    if (dino.y === dinoY && isRunning) {
-        // keep track of frame for switching PNG
-        runFrame++;
-
-        // alternate between the two running PNGs
-        if (Math.floor(runFrame / runSpeed) % 2 === 0) {
-            dinoImg = dinoRun1;
+        //dino gravity ONLY when not ducking
+        if (!ducking) {
+            velocityY += gravity;
+            dino.y = Math.min(dino.y + velocityY, dinoY);
         } else {
-           dinoImg = dinoRun2;
+            if (dinoChoice === 2) {
+                dino.y = 100;
+            } else {
+                dino.y = 130;
+            }
+
         }
-    }
 
-    // draw dinosaur
-    context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
-    // reset running animation after jumping/ducking
-    if (dino.y === dinoY) {
-        isRunning = true;
-    }
+        // running animation
+        if (dino.y === dinoY && isRunning) {
+            // keep track of frame for switching PNG
+            runFrame++;
 
-    //ptero Wing animation
-    pteroFrame++
-
-    //change between closed/open wings
-    let wingAnim = (Math.floor(pteroFrame / 10) % 2 === 0) ? pteroClosed : pteroOpen;
-
-    //move, draw, and check collisions
-    for(let i = 0; i < obstacleArray.length; i++) {
-        let obstacle = obstacleArray[i];
-
-        if (obstacle.type === "ptero") {
-            obstacle.x += pteroSpeed;   //pterodactyls fly faster than cacti
-            obstacle.img = wingAnim;   //update flapping image
-
-        } else {
-            obstacle.x += velocityX;   //cacti scroll left
+            // alternate between the two running PNGs
+            if (Math.floor(runFrame / runSpeed) % 2 === 0) {
+                dinoImg = dinoRun1;
+            } else {
+                dinoImg = dinoRun2;
+            }
         }
-        //draw Obstacle
-        context.drawImage(
-            obstacle.img,
-            obstacle.x,
-            obstacle.y,
-            obstacle.width,
-            obstacle.height
-        );
 
-        if (detectCollision(dino, obstacle)) {
-            gameOver = true;
+        // draw dinosaur
+        context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+        // reset running animation after jumping/ducking
+        if (dino.y === dinoY) {
+            isRunning = true;
         }
+
+        //ptero Wing animation
+        pteroFrame++
+
+        //change between closed/open wings
+        let wingAnim = (Math.floor(pteroFrame / 10) % 2 === 0) ? pteroClosed : pteroOpen;
+
+        //move, draw, and check collisions
+        for (let i = 0; i < obstacleArray.length; i++) {
+            let obstacle = obstacleArray[i];
+
+            if (obstacle.type === "ptero") {
+                obstacle.x += pteroSpeed;   //pterodactyls fly faster than cacti
+                obstacle.img = wingAnim;   //update flapping image
+
+            } else {
+                obstacle.x += velocityX;   //cacti scroll left
+            }
+            //draw Obstacle
+            context.drawImage(
+                obstacle.img,
+                obstacle.x,
+                obstacle.y,
+                obstacle.width,
+                obstacle.height
+            );
+
+            if (detectCollision(dino, obstacle)) {
+                gameOver = true;
+            }
+        }
+
     }
-
-
 }
 
 //function draws regular dino when arrow down is released

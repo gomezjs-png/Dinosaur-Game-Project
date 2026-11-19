@@ -36,7 +36,7 @@ header {
 }
 
 /* ------------- */
-/* Sign up/login page */
+/* login page */
 /* ------------- */
 .btn{
     border: 1px solid #3b3b3b;
@@ -132,8 +132,7 @@ header {
 }
 /*Adding a mini line for signup seperation*/
 p,
-.popup #signInPage,
-.popup #signupPage{
+.popup #signInPage{
     flex: 1;
     border: none;
     font-size: 0.75rem;
@@ -298,7 +297,7 @@ p,
 /* back button stylization */
 .back-button {
     position: absolute;
-    top: 23px;
+    top: 10px;
     left: 11px;
     cursor: pointer;
     font-family: "Courier New", monospace;
@@ -350,16 +349,65 @@ p,
     padding: 10px 30px;
     border-radius: 5px;
     font-family: "Courier New", monospace;
-    font-weight: bold;
     font-size: 17px;
     cursor: pointer;
     margin: 20px;
     z-index: 1;
 }
 
-/* Showing the server messages for the inside of login/signup forms*/
-.popup #authMessage{
-    min-height:1.2em;
-    font-size: 0.85rem;
-    margin-top: 12px;
+
+/*Leaderboard */
+.lb-container {
+    max-width: 650px;
+    margin: 40px auto 60px auto;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    font-family: "Courier New", monospace;
+    box-sizing: border-box;
+}
+
+.lb-container h2 {
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.lb table {
+    width: 150%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.lb-container th,
+.lb-container td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px dotted #ccc;
+}
+
+/* ----------------- */
+/* game start button */
+/* ----------------- */
+
+/* removes background of PNG and places
+the button in the middle of the canvas */
+.play-button {
+    background: none;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* resizes the play button */
+.play-button img {
+    width: 120px;
+    height: auto;
 }
