@@ -78,6 +78,27 @@ Creating a header section to store user elements like login and settings
                 </div>
                 <button id = "close" class = close>x</button>
             </div>
+            <!------high score popup-->
+           <div id = "hs-popup" class = "hs-popup" >
+             <h1> Leaderboard</h1>
+                 <section id="lb-section" class="lb-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Distance</th>
+                                <th>Time</th>
+                        </tr>
+                </thead>
+                <tbody id="lb-body">
+                <!-- Rows will appear here -->
+                </tbody>
+            </table>
+        </section>
+        <button id = "back-hs" class = back><</button>
+        <button id = "close-hs" class = close>x</button>
+    </div>
             <!--background popup-->
             <div id = "bg-popup" class = "bg-popup">
                 <h1>Background</h1>
@@ -118,23 +139,5 @@ Creating a header section to store user elements like login and settings
             </button>
         </div>
 
-
-    <!--------Leaderboard------->
-<section id="lb-section" class="lb-container">
-    <h2>Leaderboard</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>Distance</th>
-            <th>Time</th>
-        </tr>
-        </thead>
-        <tbody id="lb-body">
-        <!-- Rows will appear here -->
-        </tbody>
-    </table>
-</section>
 </body>
 </html>

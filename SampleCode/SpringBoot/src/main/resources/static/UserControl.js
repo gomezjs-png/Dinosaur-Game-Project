@@ -33,6 +33,16 @@ const closeSettings = document.getElementById("close");
 settingsButton.addEventListener("click", () => {settingsPopup.classList.add("open-popup");});
 closeSettings.addEventListener("click", () => {settingsPopup.classList.remove("open-popup");});
 
+/*high score leaderboard*/
+const hsButton = document.getElementById("highscores");
+const hsPopup = document.getElementById("hs-popup");
+const backHs = document.getElementById("back-hs");
+const closeHs = document.getElementById("close-hs");
+
+hsButton.addEventListener("click", () => {hsPopup.classList.add("open-hs-popup");});
+backHs.addEventListener("click", ()=> {hsPopup.classList.remove("open-hs-popup");});
+closeHs.addEventListener("click", ()=> {hsPopup.classList.remove("open-hs-popup"), settingsPopup.classList.remove("open-popup");});
+
 
 /* background */
 const bgButton = document.getElementById("background");
